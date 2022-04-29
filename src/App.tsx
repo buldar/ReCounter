@@ -35,11 +35,24 @@ function App() {
                 <div className='Display'>
                     <p>{value}</p>
                 </div>
-                <div className='Functions'>
+                {!menu && <div className='Functions'>
                     <button disabled={value === options.min} onClick={decreaseValue}>-</button>
                     <button disabled={value === options.max} onClick={increaseValue}>+</button>
                     <button onClick={restart}>re</button>
-                </div>
+                </div>}
+                {menu && <div className='Options'>
+                    <div>
+                        <div>
+                            <button>min</button>
+                            <span>123</span></div>
+                        <div>
+                            <button>max</button>
+                            <span>123</span></div>
+                    </div>
+                    <div className='Set'>
+                        <button>set</button>
+                    </div>
+                </div>}
             </div>
         </div>
     );
