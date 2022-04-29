@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import './App.css';
+import set = Reflect.set;
 
 
 function App() {
@@ -9,6 +10,10 @@ function App() {
     }
 
     let [value, setValue] = useState(0)
+
+    let [options, setOptions] = useState({min: 0, max: 5})
+
+    let [menu, setMenu] = useState(true)
 
     const increaseValue = () => {
         setValue(value + 1)
@@ -22,35 +27,54 @@ function App() {
         setValue(0)
     }
 
-    let [options, setOptions] = useState({min: -5, max: 5})
+    const getStart = () => {
+        setMenu(!menu)
+    }
 
-    let [menu, setMenu] = useState(true)
+    let newMin = (e:any) => {
+        options.min=e.currentTarget.value
+        setOptions(options)
+    }
+
+    let newMax = (e:any) => {
+        options.max=e.currentTarget.value
+        setOptions(options)
+    }
+
 
     return (
         <div className="App">
             <div className='Header'>
-                <h1>HEADER</h1>
+                <h1>THIS IS COUNTER</h1>
             </div>
             <div className='Counter'>
                 <div className='Display'>
-                    <p>{value}</p>
+                    {!menu && <p>{value}</p>}
+                    {menu && <p> Please, choose options</p>}
                 </div>
                 {!menu && <div className='Functions'>
-                    <button disabled={value === options.min} onClick={decreaseValue}>-</button>
-                    <button disabled={value === options.max} onClick={increaseValue}>+</button>
-                    <button onClick={restart}>re</button>
+                    <div className='FuncButtons'>
+                        <button disabled={value <= options.min} onClick={decreaseValue}>-</button>
+                        <button disabled={value >= options.max} onClick={increaseValue}>+</button>
+                        <button onClick={restart}>re</button>
+                    </div>
+                    <div className='Set'>
+                        <button onClick={getStart}>to set</button>
+                    </div>
                 </div>}
                 {menu && <div className='Options'>
                     <div>
                         <div>
                             <button>min</button>
-                            <span>123</span></div>
+                            <input type='number' defaultValue={options.min} onChange={newMin}/>
+                        </div>
                         <div>
                             <button>max</button>
-                            <span>123</span></div>
+                            <input type='number' defaultValue={options.max} onChange={newMax}/>
+                        </div>
                     </div>
                     <div className='Set'>
-                        <button>set</button>
+                        <button onClick={getStart}>set</button>
                     </div>
                 </div>}
             </div>
