@@ -1,13 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useState} from 'react';
 import './App.css';
 
-export let state = {
-    currentValue: 0,
 
-}
 
 function App() {
+
+    let [value, setValue] = useState<number>(0)
+
+    const increaseValue = () => {
+        setValue(value+1)
+    }
+
+    const decreaseValue = () => {
+        setValue(value-1)
+    }
+
+    const restart = () => {
+        setValue(0)
+    }
+
+    let [options, setOptions] = useState({min:0, max:0})
+
     return (
         <div className="App">
             <div className='Header'>
@@ -15,12 +28,12 @@ function App() {
             </div>
             <div className='Counter'>
                 <div className='Display'>
-                    <p>{state.currentValue}</p>
+                    <p>{value}</p>
                 </div>
                 <div className='Functions'>
-                    <button>-</button>
-                    <button>+</button>
-                    <button>re</button>
+                    <button onClick={decreaseValue}>-</button>
+                    <button onClick={increaseValue}>+</button>
+                    <button onClick={restart}>re</button>
                 </div>
             </div>
         </div>
