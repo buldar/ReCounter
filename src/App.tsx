@@ -3,13 +3,24 @@ import './App.css';
 import set = Reflect.set;
 
 
+
 function App() {
+
+
 
     const errors = {
         wrongOptions: 'Wrong options'
     }
 
-    let [value, setValue] = useState(0)
+    let [value, setValue] = useState(()=>{
+        let storageValue = localStorage.getItem("currentValue")
+        if (storageValue) {
+            let savedValue = JSON.parse(storageValue)
+            return savedValue
+        } else {
+            return 0
+        }
+    })
 
     let [options, setOptions] = useState({min: -5, max: 5})
 
@@ -54,10 +65,11 @@ function App() {
     }
 
     const deleteFromLocalStorage = () => {
-        //code
+        localStorage.clear()
+        setValue(0)
     }
 
-
+    // getFromLocalStorage()
 
     return (
         <div className="App">
@@ -105,7 +117,9 @@ function App() {
                     </button>
                 </div>
                 <div>
-                    <button style={{width:'200px'}}>clear</button>
+                    <button style={{width: '200px'}}
+                            onClick={deleteFromLocalStorage}>clear
+                    </button>
                 </div>
             </div>
         </div>
