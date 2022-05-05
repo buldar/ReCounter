@@ -11,7 +11,7 @@ function App() {
 
     let [value, setValue] = useState(0)
 
-    let [options, setOptions] = useState({min: 0, max: 5})
+    let [options, setOptions] = useState({min: -5, max: 5})
 
     let [menu, setMenu] = useState(true)
 
@@ -31,15 +31,32 @@ function App() {
         setMenu(!menu)
     }
 
-    let newMin = (e:any) => {
-        options.min=e.currentTarget.value
+    let newMin = (e: any) => {
+        options.min = e.currentTarget.value
         setOptions(options)
     }
 
-    let newMax = (e:any) => {
-        options.max=e.currentTarget.value
+    let newMax = (e: any) => {
+        options.max = e.currentTarget.value
         setOptions(options)
     }
+
+    const saveToLocalStorage = () => {
+        localStorage.setItem("currentValue", JSON.stringify(value))
+    }
+
+    const getFromLocalStorage = () => {
+        let storageValue = localStorage.getItem("currentValue")
+        if (storageValue) {
+            let savedValue = JSON.parse(storageValue)
+            setValue(savedValue)
+        }
+    }
+
+    const deleteFromLocalStorage = () => {
+        //code
+    }
+
 
 
     return (
@@ -77,6 +94,19 @@ function App() {
                         <button onClick={getStart}>set</button>
                     </div>
                 </div>}
+                <div>
+                    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}
+                            onClick={saveToLocalStorage}>
+                        save
+                    </button>
+                    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}
+                            onClick={getFromLocalStorage}>
+                        load
+                    </button>
+                </div>
+                <div>
+                    <button style={{width:'200px'}}>clear</button>
+                </div>
             </div>
         </div>
     );
