@@ -1,41 +1,44 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
-import set = Reflect.set;
-
+import {useDispatch, useSelector} from "react-redux";
+import {AppStateType} from "./redux/store";
+import {decreaseValueAC, increaseValueAC} from "./redux/reducer";
 
 
 function App() {
+    // const errors = {
+    //     wrongOptions: 'Wrong options'
+    // }
 
-
-
-    const errors = {
-        wrongOptions: 'Wrong options'
-    }
-
-    let [value, setValue] = useState(()=>{
-        let storageValue = localStorage.getItem("currentValue")
-        if (storageValue) {
-            let savedValue = JSON.parse(storageValue)
-            return savedValue
-        } else {
-            return 0
-        }
-    })
+    const value = useSelector<AppStateType, number>(state => state.counter.value)
+    const dispatch = useDispatch()
+    // let [value, setValue] = useState(() => {
+    //     let storageValue = localStorage.getItem("currentValue")
+    //     if (storageValue) {
+    //         return  JSON.parse(storageValue)
+    //     } else {
+    //         return 0
+    //     }
+    // })
 
     let [options, setOptions] = useState({min: -5, max: 5})
 
     let [menu, setMenu] = useState(true)
 
     const increaseValue = () => {
-        setValue(value + 1)
+        dispatch(increaseValueAC())
+        // setValue(value=value + 1)
+        // localStorage.setItem("currentValue", JSON.stringify(value))
     }
 
     const decreaseValue = () => {
-        setValue(value - 1)
+        dispatch(decreaseValueAC())
+        // setValue(value=value - 1)
+        // localStorage.setItem("currentValue", JSON.stringify(value))
     }
 
     const restart = () => {
-        setValue(0)
+        // setValue(0)
     }
 
     const getStart = () => {
@@ -52,24 +55,22 @@ function App() {
         setOptions(options)
     }
 
-    const saveToLocalStorage = () => {
-        localStorage.setItem("currentValue", JSON.stringify(value))
-    }
-
-    const getFromLocalStorage = () => {
-        let storageValue = localStorage.getItem("currentValue")
-        if (storageValue) {
-            let savedValue = JSON.parse(storageValue)
-            setValue(savedValue)
-        }
-    }
+    // const saveToLocalStorage = () => {
+    //     localStorage.setItem("currentValue", JSON.stringify(value))
+    // }
+    //
+    // const getFromLocalStorage = () => {
+    //     let storageValue = localStorage.getItem("currentValue")
+    //     if (storageValue) {
+    //         let savedValue = JSON.parse(storageValue)
+    //         setValue(savedValue)
+    //     }
+    // }
 
     const deleteFromLocalStorage = () => {
-        localStorage.clear()
-        setValue(0)
+        // localStorage.clear()
+        // setValue(0)
     }
-
-    // getFromLocalStorage()
 
     return (
         <div className="App">
@@ -106,16 +107,16 @@ function App() {
                         <button onClick={getStart}>set</button>
                     </div>
                 </div>}
-                <div>
-                    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}
-                            onClick={saveToLocalStorage}>
-                        save
-                    </button>
-                    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}
-                            onClick={getFromLocalStorage}>
-                        load
-                    </button>
-                </div>
+                {/*<div>*/}
+                {/*    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}*/}
+                {/*            onClick={saveToLocalStorage}>*/}
+                {/*        save*/}
+                {/*    </button>*/}
+                {/*    <button style={{width: '100px', backgroundColor: 'black', color: 'white'}}*/}
+                {/*            onClick={getFromLocalStorage}>*/}
+                {/*        load*/}
+                {/*    </button>*/}
+                {/*</div>*/}
                 <div>
                     <button style={{width: '200px'}}
                             onClick={deleteFromLocalStorage}>clear
